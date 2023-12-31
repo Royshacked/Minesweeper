@@ -1,0 +1,95 @@
+body {
+    background-color: rgb(234, 211, 211);
+    font-family: serif;
+    text-align: center;
+    
+}
+
+h1 {
+    margin: 10px;
+    font-size: 50px;
+    text-align: center;
+    color: gray;
+}
+
+button {
+    font-family: serif; 
+}
+
+.lives {
+    margin: auto;
+    margin-bottom: 10px;
+    border:red solid;
+    padding: 10px;
+    color:rgb(24, 188, 24);
+    text-align: center;
+    font-weight: bold;
+    font-size: 40px;
+    height: 60px;
+    width: 400px;
+}
+
+.shown-count {
+    display: inline-block;
+    border:red solid;
+    padding: 10px;
+    color:blue;
+    font-weight: bold;
+    font-size: 30px;
+    height: 40px;
+    width: 150px;
+}
+
+.smiley {
+    display: inline-block;
+    border:red solid;
+    padding: 10px;
+    transition: 100ms;
+    font-size: 30px;
+    height: 40px;
+    width: 70px;
+}
+
+.smiley:hover {
+    cursor: pointer;
+    background-color: rgb(224, 141, 141);
+}
+
+.timer {
+    display: inline-block;
+    border:red solid;
+    padding: 10px;
+    color:green;
+    font-weight: bold;
+    font-size: 30px;
+    height: 40px;
+    width: 150px;
+}
+    
+table {
+	margin: 20px auto;
+    border:red solid;
+}
+
+.cell {
+    border: 2px solid rgb(208, 204, 204);
+    text-align: center;
+    font-size: 1.5em;
+    color:orange;
+    transition: 200ms;
+    width: 40px;
+    height: 40px;
+}
+
+.clicked {
+    background-color: gray;
+}
+
+.cell:hover {
+    cursor: pointer;
+    background-color: orange;
+}
+
+footer {
+    color:gray;
+}
