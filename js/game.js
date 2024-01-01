@@ -101,6 +101,7 @@ function renderPanel() {
     renderPanelCell('.lives span', gGame.lives)
     renderPanelCell('.smiley', '😁')
     renderPanelCell('.count', gGame.shownCount)
+    renderPanelCell('.mines', gLevel.mines)
 }
 
 

@@ -18,6 +18,21 @@ function setMines(size, mines, board, rowIdx, colIdx) {
     }
 }
 
+// function setMines(size, mines, board, rowIdx, colIdx) {
+//     for (var i = 0; i < mines; i++) {
+//         const row = getRandomInt(0, size)
+//         const col = getRandomInt(0, size)
+//         if (row === rowIdx && col === colIdx) {
+//             i--
+//             continue
+//         } else {
+//             board[row][col].isMine = true
+//             rowIdx = row
+//             colIdx = col
+//             console.log('mine')
+//         }
+//     }
+// }
 
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
@@ -44,9 +59,14 @@ function mineNegsCount(rowIdx, colIdx) {
 
 function showAllMines(board) {
     for (var i = 0; i < board.length; i++) {
-        for (var j = 0; j < board.length; j++) {
+        for (var j = 0; j < board[i].length; j++) {
             if (board[i][j].isMine) {
                 board[i][j].isShown = true
+                if (board[i][j].isMarked) {
+                    // const elCell = document.querySelector(`.cell-${rowIdx}-${colIdx}`)
+                    // elCell.classList.add('marked')
+                    continue
+                }
                 renderCell(i, j, MINE)
             }
         }

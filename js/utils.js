@@ -7,9 +7,7 @@ function getRandomInt(min, max) {
   }
 
 function renderCell(rowIdx, colIdx, value) {
-    // Select the elCell and set the value
     const elCell = document.querySelector(`.cell-${rowIdx}-${colIdx}`)
-    // const elCell = document.querySelector(`[data-i="${location.i}"][data-j="${location.j}"]`)
     elCell.innerHTML = value
     elCell.classList.add('clicked') 
 }

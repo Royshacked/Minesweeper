@@ -54,7 +54,6 @@ function onCellClicked(elCell, ev, i, j) {
     } else if (cell.minesAroundCount) {
         cell.isShown = true
         gGame.shownCount++
-        renderPanelCell('.count', gGame.shownCount)
         renderCell(i, j, cell.minesAroundCount)
 
         if (isWin()) {
@@ -65,7 +64,6 @@ function onCellClicked(elCell, ev, i, j) {
     } else {
         cell.isShown = true
         gGame.shownCount++
-        renderPanelCell('.count', gGame.shownCount)
         renderCell(i, j, '')
         revealCells(i, j)
 
@@ -89,9 +87,9 @@ function revealCells(rowIdx, colIdx) {
             gGame.shownCount++
             const value = checkCellContent(i, j)
             renderCell(i, j, value)
+            if (value===EMPTY) revealCells(i, j)
         }
     }
-    renderPanelCell('.count', gGame.shownCount)
 }
 
 
@@ -103,14 +101,20 @@ function checkCellContent(rowIdx, colIdx) {
     return ''
 }
 
+function expandShown(board, elCell, i, j) {
+
+}
+
 
 function onCellMarked(elCell, ev, i, j) {
     var cell = gBoard[i][j]
     if (cell.isShown) return
 
     cell.isMarked = true
-    gGame.markedCount++
     elCell.innerText = FLAG
+    gGame.markedCount++
+    if (!cell.isMine) gGame.shownCount++
+    renderPanelCell('.count', gGame.markedCount)
 }
 
 
