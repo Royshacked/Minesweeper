@@ -17,6 +17,16 @@ function renderPanelCell (selector,value) {
     elPanelCell.innerHTML = value
 }
 
+function addCellClass (location, classStr) {
+    const elCell = document.querySelector(location)
+    elCell.classList.add(classStr)
+}
+
+function removeCellClass (location, classStr) {
+    const elCell = document.querySelector(location)
+    elCell.classList.remove(classStr)
+}
+
 function startTimer() {
 	var startTime = Date.now()
 

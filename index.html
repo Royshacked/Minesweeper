@@ -15,10 +15,13 @@
     <button onclick="clickLevel(2)">Medium</button>
     <button onclick="clickLevel(3)">Expert</button>
 
+    <button class = "safe-click" onclick = "onSafeClick()">Safe clicks: <span>3</span></button>
+    <button class = "mode" onclick = "setMode()">Manual</button>
+
     <div class="lives"><span></span> Lives left</div>
 
     <div class="shown-count">Flags: <span class="count"></span>|<span class="mines"></span></div>
-    <div class="smiley" onclick="onSmileyClick()"></div>
+    <span class="smiley" onclick="onSmileyClick()"></span>
     <div class="timer ">Time: <span class="time">0</span>s</div>
 
     <div class="board-container"></div>

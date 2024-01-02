@@ -2,6 +2,9 @@ body {
     background-color: rgb(251, 248, 248);
     font-family:'Times New Roman', Times, serif;
     text-align: center;  
+    background-image: url("mines3.jpeg"); /* The image used */
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 h1 {
@@ -19,7 +22,7 @@ button {
 
 button:hover {
     cursor: pointer;
-    background-color: rgb(232, 169, 169);
+    background-color: rgb(78, 212, 141);
 }
 
 .lives {
@@ -43,9 +46,6 @@ button:hover {
 }
 
 .smiley {
-    display: inline-block;
-    border:gray solid;
-    padding: 10px;
     transition: 100ms;
     font-size: 30px;
     height: 40px;
@@ -54,7 +54,6 @@ button:hover {
 
 .smiley:hover {
     cursor: pointer;
-    background-color: rgb(224, 141, 141);
 }
 
 .timer {
@@ -83,19 +82,19 @@ table {
 
 .clicked {
     border: 2px solid rgb(84, 81, 81);
-    background-color: gray;
+    background-color: rgb(102, 105, 104);
 }
 
 .marked {
     border: 2px solid rgb(84, 81, 81);
-    background-color: rgb(236, 162, 162);
+    background-color: rgb(78, 212, 141);
 }
 
 .cell:hover {
     cursor: pointer;
-    background-color: orange;
+    background-color: rgb(78, 212, 141);
 }
 
 footer {
-    color:gray;
+    color: rgb(255, 255, 255);
 }

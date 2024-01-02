@@ -16,9 +16,11 @@ function cellFirstClicked(elCell, ev, i, j) {
 
 
 function onCellClicked(elCell, ev, i, j) {
+    const cell = gBoard[i][j]
+
     if (!gGame.isOn) return
 
-    if (isFirstClick) {
+    if (isFirstClick && !isManual) {
         cellFirstClicked(elCell, ev, i, j)
         return
     }
@@ -28,21 +30,31 @@ function onCellClicked(elCell, ev, i, j) {
         return
     }
 
-    var cell = gBoard[i][j]
-
     if (cell.isMarked) return
+
+    //********************************** */
+
+    if (isFirstClick && isManual) {
+        cell.isMine = true //MODEL
+        flashMine(i, j)
+        manualCount++
+        renderPanelCell('.mode', `${manualCount}|${gLevel.mines}`)
+
+        if (manualCount === gLevel.mines) {
+            manualCount = 0
+            isFirstClick = false
+            renderPanelCell('.mode', 'Play')
+            setMinesNegsCount(gBoard)
+        }
+        return
+    }
+
     //************************************************************************* */
     if (cell.isMine) {
         if (gGame.lives > 1) {
             gGame.lives-- //MODEL
             renderPanelCell('.lives span', gGame.lives) //DOM
-            renderCell(i, j, MINE) //DOM
-
-            //Flash Mine
-            setTimeout(() => {
-                renderCell(i, j, '')
-                elCell.classList.remove('clicked')
-            }, 200);
+            flashMine(i, j)
             return
         } else {
             gGame.lives--
@@ -50,7 +62,7 @@ function onCellClicked(elCell, ev, i, j) {
             renderCell(i, j, MINE)
             gameOver(false)
         }
-    //************************************************************************** */
+        //************************************************************************** */
     } else if (cell.minesAroundCount) {
         cell.isShown = true
         gGame.shownCount++
@@ -60,7 +72,7 @@ function onCellClicked(elCell, ev, i, j) {
             gameOver(true)
             return
         }
-    //************************************************************************** */
+        //************************************************************************** */
     } else {
         cell.isShown = true
         gGame.shownCount++
@@ -87,7 +99,7 @@ function revealCells(rowIdx, colIdx) {
             gGame.shownCount++
             const value = checkCellContent(i, j)
             renderCell(i, j, value)
-            if (value===EMPTY) revealCells(i, j)
+            if (value === EMPTY) revealCells(i, j)
         }
     }
 }
@@ -101,28 +113,76 @@ function checkCellContent(rowIdx, colIdx) {
     return ''
 }
 
-function expandShown(board, elCell, i, j) {
-
-}
-
 
 function onCellMarked(elCell, ev, i, j) {
     var cell = gBoard[i][j]
+
     if (cell.isShown) return
 
-    cell.isMarked = true
-    elCell.innerText = FLAG
-    gGame.markedCount++
-    if (!cell.isMine) gGame.shownCount++
-    renderPanelCell('.count', gGame.markedCount)
+    if (!cell.isMarked) {
+        cell.isMarked = true
+        elCell.innerText = FLAG
+        gGame.markedCount++
+        if (!cell.isMine) gGame.shownCount++
+        renderPanelCell('.count', gGame.markedCount)
+        return
+    }
+
+    if (cell.isMarked) {
+        cell.isMarked = false
+        elCell.innerText = EMPTY
+        gGame.markedCount--
+        if (!cell.isMine) gGame.shownCount--
+        renderPanelCell('.count', gGame.markedCount)
+    }
+}
+
+function flashMine(row, col) {
+    renderCell(row, col, MINE)
+
+    setTimeout(() => {
+        renderCell(row, col, EMPTY)
+        removeCellClass(`.cell-${row}-${col}`, 'clicked')
+    }, 200);
 }
 
 
 function onSmileyClick() {
     resetGame()
-    onInit()
     renderPanelCell('.smiley', '😁')
-    renderPanelCell('.time', '0')
+}
+
+function onSafeClick() {
+    if (!gGame.isOn || gSafeClickCounter <= 0) return
+
+    var row = getRandomInt(0, gLevel.size)
+    var col = getRandomInt(0, gLevel.size)
+
+    var isEmpty = (gBoard[row][col].isMine || gBoard[row][col].isShown || gBoard[row][col].isMarked) ? false : true
+    while (!isEmpty) {
+        row = getRandomInt(0, gLevel.size)
+        col = getRandomInt(0, gLevel.size)
+        isEmpty = (gBoard[row][col].isMine || gBoard[row][col].isShown || gBoard[row][col].isMarked) ? false : true
+    }
+
+    addCellClass(`.cell-${row}-${col}`, 'marked')
+
+    gSafeClickTimeOut = setTimeout(() => {
+        removeCellClass(`.cell-${row}-${col}`, 'marked')
+    }, 500);
+
+    gSafeClickCounter--
+    renderPanelCell('.safe-click span', gSafeClickCounter)
+}
+
+function setMode() {
+    if (!isManual) {
+        isManual = true
+        addCellClass('.mode', 'marked')
+    } else {
+        isManual = false
+        removeCellClass('.mode', 'marked')
+    }
 }
 
 

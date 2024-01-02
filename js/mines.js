@@ -63,8 +63,8 @@ function showAllMines(board) {
             if (board[i][j].isMine) {
                 board[i][j].isShown = true
                 if (board[i][j].isMarked) {
-                    // const elCell = document.querySelector(`.cell-${rowIdx}-${colIdx}`)
-                    // elCell.classList.add('marked')
+                    const elCell = document.querySelector(`.cell-${i}-${j}`)
+                    elCell.classList.add('marked')
                     continue
                 }
                 renderCell(i, j, MINE)

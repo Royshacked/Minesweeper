@@ -21,6 +21,10 @@ var gGame = {
 
 var isFirstClick = true
 var gTimer
+var gSafeClickTimeOut
+var gSafeClickCounter = 3
+var isManual = false
+var manualCount = 0
 
 //******************************************** */
 
@@ -29,6 +33,7 @@ function onInit() {
     renderBoard(gBoard)
     renderPanel()
     clearInterval(gTimer)
+    clearTimeout(gSafeClickTimeOut)
     renderPanelCell('.time', '0')
     gGame.isOn = true
 }
@@ -51,7 +56,7 @@ function clickLevel(level) {
             gLevel.size = 4
             gLevel.mines = 2
     }
-    onSmileyClick()
+    resetGame()
 }
 
 
@@ -102,21 +107,18 @@ function renderPanel() {
     renderPanelCell('.smiley', '😁')
     renderPanelCell('.count', gGame.shownCount)
     renderPanelCell('.mines', gLevel.mines)
+    renderPanelCell('.mode', 'Manual')
+    removeCellClass('.mode', 'marked')
 }
 
 
 function gameOver(isWin) {
-    if (isWin) {
-        renderPanelCell('.smiley', '😎')
-        showAllMines(gBoard)
-        clearInterval(gTimer)
-        gGame.isOn = false
-    } else {
-        renderPanelCell('.smiley', '😒')
-        showAllMines(gBoard)
-        clearInterval(gTimer)
-        gGame.isOn = false
-    }
+    if (isWin) renderPanelCell('.smiley', '😎')
+    else renderPanelCell('.smiley', '😒')
+    
+    showAllMines(gBoard)
+    clearInterval(gTimer)
+    gGame.isOn = false 
 }
 
 
@@ -133,12 +135,10 @@ function resetGame() {
         secsPassed: 0,
         lives: 3
     }
-
     isFirstClick = true
-}
-
-function expandShown(board, elCell, i, j) {
-
+    gSafeClickCounter = 3
+    isManual = false
+    onInit()
 }
 
 
