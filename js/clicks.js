@@ -294,7 +294,7 @@ function flashHintCells(rowIdx,colIdx) {
 //******************************************************************************************************************************************** */
 
 function undo() {
-    if (!gClicksHistory.length) return
+    if (!gClicksHistory.length||!gGame.isOn) return
 
     var clickedCell = gClicksHistory.pop()
     var row = clickedCell.i

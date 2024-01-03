@@ -42,18 +42,17 @@ button:hover {
     font-weight: bold;
     font-size: 40px;
     height: 60px;
-    width: 400px;
+    width: 300px;
 }
 
 .flags {
     display: inline-block;
-    /* border:gray solid; */
     padding: 10px;
     color: red;
     font-weight: bold;
     font-size: 30px;
     height: 50px;
-    width: 150px;
+    min-width: 150px;
 }
 
 .smiley {
@@ -69,13 +68,12 @@ button:hover {
 
 .timer {
     display: inline-block;
-    /* border:gray solid; */
     padding: 10px;
     color: red;
     font-weight: bold;
     font-size: 30px;
     height: 50px;
-    width: 150px;
+    min-width: 150px;
 }
     
 table {
