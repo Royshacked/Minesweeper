@@ -8,22 +8,22 @@ function getRandomInt(min, max) {
 
 function renderCell(rowIdx, colIdx, value) {
     const elCell = document.querySelector(`.cell-${rowIdx}-${colIdx}`)
-    elCell.innerHTML = value
+    elCell.innerText = value
     elCell.classList.add('clicked') 
 }
 
 function renderPanelCell (selector,value) {
     const elPanelCell = document.querySelector(selector)
-    elPanelCell.innerHTML = value
+    elPanelCell.innerText = value
 }
 
-function addCellClass (location, classStr) {
-    const elCell = document.querySelector(location)
+function addCellClass (selector, classStr) {
+    const elCell = document.querySelector(selector)
     elCell.classList.add(classStr)
 }
 
-function removeCellClass (location, classStr) {
-    const elCell = document.querySelector(location)
+function removeCellClass (selector, classStr) {
+    const elCell = document.querySelector(selector)
     elCell.classList.remove(classStr)
 }
 
@@ -35,4 +35,17 @@ function startTimer() {
         const formattedTime = (elapsedTime / 1000).toFixed(0)
 		renderPanelCell('.time',formattedTime)
     }, 1000)
+}
+
+function restartTimers() {
+    renderPanelCell('.time', '0')
+    clearInterval(gTimer)
+    clearTimeout(gSafeClickTimeOut)
+}
+
+function createClicksHistory(i, j) {
+    gClicksHistory.push({
+        i: i,
+        j: j 
+    })
 }

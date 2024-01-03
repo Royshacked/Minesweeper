@@ -19,12 +19,20 @@ var gGame = {
     lives: 3
 }
 
-var isFirstClick = true
+var gIsFirstClick = true
 var gTimer
 var gSafeClickTimeOut
 var gSafeClickCounter = 3
-var isManual = false
-var manualCount = 0
+var gIsManual = false
+var gManMinesCount = 0
+var gHints
+var gHintsTimeOut
+var gClicksCount = 0
+var gClicksHistory = []
+var gMegaHintCells = []
+var isMegaHint = false
+var isMegaHintClicked = false
+var gMegaHintTimeOut
 
 //******************************************** */
 
@@ -32,14 +40,13 @@ function onInit() {
     gBoard = buildBoard(gLevel.size, gLevel.mines)
     renderBoard(gBoard)
     renderPanel()
-    clearInterval(gTimer)
-    clearTimeout(gSafeClickTimeOut)
-    renderPanelCell('.time', '0')
+    restartTimers()
+    createHints()
     gGame.isOn = true
 }
 
 function clickLevel(level) {
-    switch(level) {
+    switch (level) {
         case 1:
             gLevel.size = 4
             gLevel.mines = 2
@@ -71,7 +78,8 @@ function buildBoard(size, mines) {
                 minesAroundCount: 0,
                 isShown: false,
                 isMine: false,
-                isMarked: false
+                isMarked: false,
+                isHint: false
             }
             board[i].push(cell)
         }
@@ -115,15 +123,15 @@ function renderPanel() {
 function gameOver(isWin) {
     if (isWin) renderPanelCell('.smiley', '😎')
     else renderPanelCell('.smiley', '😒')
-    
+
     showAllMines(gBoard)
     clearInterval(gTimer)
-    gGame.isOn = false 
+    gGame.isOn = false
 }
 
 
 function isWin() {
-    if (gGame.shownCount === ( gLevel.size ** 2 - gLevel.mines )) return true
+    if (gGame.shownCount === (gLevel.size ** 2 - gLevel.mines)) return true
     return false
 }
 
@@ -135,12 +143,41 @@ function resetGame() {
         secsPassed: 0,
         lives: 3
     }
-    isFirstClick = true
+    gIsFirstClick = true
     gSafeClickCounter = 3
-    isManual = false
+    gIsManual = false
+    gClicksCount = 0
+    gClicksHistory = []
+    gMegaHintCells = []
+    isMegaHint = false
+    isMegaHintClicked = false
     onInit()
 }
 
+function createHints() {
+    gHints = []
+
+    for (var i = 0; i < 3; i++) {
+        gHints[i] = {
+            clicked: false,
+            blocked: false
+        }
+        renderPanelCell(`.hint${i+1}`, '❓')
+    }
+}
+
+// function setDarkMode() {
+//     var strHTML = `
+//     <style>
+//         :root { color: blue }
+//         @media (prefers-color-scheme: dark) {
+//         :root { color: purple }
+//         }
+//     </style>
+//     `
+//     const elBody = document.querySelector('body')
+//     elBody.innerHTML += strHTML
+// }
 
 
 

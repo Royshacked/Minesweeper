@@ -17,10 +17,19 @@
 
     <button class = "safe-click" onclick = "onSafeClick()">Safe clicks: <span>3</span></button>
     <button class = "mode" onclick = "setMode()">Manual</button>
+    <!-- <button class = "dark-mode" onclick = "setDarkMode()">Dark-Mode</button> -->
+    <button class = "undo" onclick = "undo()">UNDO</button>
+    <button class = "mega-hint" onclick = "clickMegaHint()">Mega-Hint</button>
+
+    <br>
+
+    <span class = "hints hint1" onclick = "clickHint(1)">❓</span>
+    <span class = "hints hint2" onclick = "clickHint(2)">❓</span>
+    <span class = "hints hint3" onclick = "clickHint(3)">❓</span>
 
     <div class="lives"><span></span> Lives left</div>
 
-    <div class="shown-count">Flags: <span class="count"></span>|<span class="mines"></span></div>
+    <div class="flags">Flags: <span class="count"></span>|<span class="mines"></span></div>
     <span class="smiley" onclick="onSmileyClick()"></span>
     <div class="timer ">Time: <span class="time">0</span>s</div>
 

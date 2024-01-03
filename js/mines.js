@@ -1,38 +1,19 @@
 'use strict'
 
 function setMines(size, mines, board, rowIdx, colIdx) {
-    var minesCount = 0
-
-    while (minesCount < mines) {
-        minesCount = 0
+    for (var i = 0; i < mines; i++) {
         const row = getRandomInt(0, size)
         const col = getRandomInt(0, size)
-        if (row === rowIdx && col === colIdx) continue
-        //MODEL
-        board[row][col].isMine = true
-        for (var i = 0; i < size; i++) {
-            for (var j = 0; j < size; j++) {
-                if (board[i][j].isMine) minesCount++
-            }
+        
+        if ((row === rowIdx && col === colIdx)||(board[row][col].isMine)) {
+            i--
+            continue
+        } else {
+            board[row][col].isMine = true
         }
     }
 }
 
-// function setMines(size, mines, board, rowIdx, colIdx) {
-//     for (var i = 0; i < mines; i++) {
-//         const row = getRandomInt(0, size)
-//         const col = getRandomInt(0, size)
-//         if (row === rowIdx && col === colIdx) {
-//             i--
-//             continue
-//         } else {
-//             board[row][col].isMine = true
-//             rowIdx = row
-//             colIdx = col
-//             console.log('mine')
-//         }
-//     }
-// }
 
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
@@ -63,8 +44,7 @@ function showAllMines(board) {
             if (board[i][j].isMine) {
                 board[i][j].isShown = true
                 if (board[i][j].isMarked) {
-                    const elCell = document.querySelector(`.cell-${i}-${j}`)
-                    elCell.classList.add('marked')
+                    addCellClass(`.cell-${i}-${j}`,'marked')
                     continue
                 }
                 renderCell(i, j, MINE)
