@@ -9,7 +9,16 @@ function getRandomInt(min, max) {
 function renderCell(rowIdx, colIdx, value) {
     const elCell = document.querySelector(`.cell-${rowIdx}-${colIdx}`)
     elCell.innerText = value
-    elCell.classList.add('clicked') 
+}
+
+function addCellClass (rowIdx, colIdx, classStr) {
+    const elCell = document.querySelector(`.cell-${rowIdx}-${colIdx}`)
+    elCell.classList.add(classStr)
+}
+
+function removeCellClass (rowIdx, colIdx, classStr) {
+    const elCell = document.querySelector(`.cell-${rowIdx}-${colIdx}`)
+    elCell.classList.remove(classStr)
 }
 
 function renderPanelCell (selector,value) {
@@ -17,35 +26,13 @@ function renderPanelCell (selector,value) {
     elPanelCell.innerText = value
 }
 
-function addCellClass (selector, classStr) {
+function addPanelCellClass (selector, classStr) {
     const elCell = document.querySelector(selector)
     elCell.classList.add(classStr)
 }
 
-function removeCellClass (selector, classStr) {
+function removePanelCellClass (selector, classStr) {
     const elCell = document.querySelector(selector)
     elCell.classList.remove(classStr)
 }
 
-function startTimer() {
-	var startTime = Date.now()
-
-	gTimer = setInterval(() => {
-		const elapsedTime = Date.now() - startTime
-        const formattedTime = (elapsedTime / 1000).toFixed(0)
-		renderPanelCell('.time',formattedTime)
-    }, 1000)
-}
-
-function restartTimers() {
-    renderPanelCell('.time', '0')
-    clearInterval(gTimer)
-    clearTimeout(gSafeClickTimeOut)
-}
-
-function createClicksHistory(i, j) {
-    gClicksHistory.push({
-        i: i,
-        j: j 
-    })
-}

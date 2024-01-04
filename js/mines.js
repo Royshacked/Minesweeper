@@ -4,8 +4,8 @@ function setMines(size, mines, board, rowIdx, colIdx) {
     for (var i = 0; i < mines; i++) {
         const row = getRandomInt(0, size)
         const col = getRandomInt(0, size)
-        
-        if ((row === rowIdx && col === colIdx)||(board[row][col].isMine)) {
+
+        if ((row === rowIdx && col === colIdx) || (board[row][col].isMine)) {
             i--
             continue
         } else {
@@ -44,10 +44,12 @@ function showAllMines(board) {
             if (board[i][j].isMine) {
                 board[i][j].isShown = true
                 if (board[i][j].isMarked) {
-                    addCellClass(`.cell-${i}-${j}`,'marked')
+                    gGame.correctMarksCount++
+                    addCellClass(i, j, 'marked')
                     continue
                 }
                 renderCell(i, j, MINE)
+                addCellClass(i, j, 'clicked')
             }
         }
     }

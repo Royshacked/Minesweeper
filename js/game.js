@@ -15,6 +15,7 @@ var gGame = {
     isOn: false,
     shownCount: 0,
     markedCount: 0,
+    correctMarksCount: 0,
     secsPassed: 0,
     lives: 3
 }
@@ -30,8 +31,8 @@ var gHintsTimeOut
 var gClicksCount = 0
 var gClicksHistory = []
 var gMegaHintCells = []
-var isMegaHint = false
-var isMegaHintClicked = false
+var gIsMegaHint = false
+var gIsMegaHintClicked = false
 var gMegaHintTimeOut
 
 //******************************************** */
@@ -113,18 +114,40 @@ function renderBoard(board) {
 function renderPanel() {
     renderPanelCell('.lives span', gGame.lives)
     renderPanelCell('.smiley', '😁')
-    renderPanelCell('.count', gGame.shownCount)
+    renderPanelCell('.count', gGame.markedCount)
     renderPanelCell('.mines', gLevel.mines)
     renderPanelCell('.mode', 'Manual')
-    removeCellClass('.mode', 'marked')
+    removePanelCellClass('.mode', 'marked')
+    addPanelCellClass('.modal', 'hidden')
+    removePanelCellClass('.modal', 'win')
+    removePanelCellClass('.modal', 'lose')
 }
 
+function renderModal() {
+    const smiley = document.querySelector('.smiley').innerText
+    
+    const strHTML = `
+    ${smiley}
+    <br> Time: ${gGame.secsPassed} sec 
+    <br> Correct flags: ${gGame.correctMarksCount}
+    <br> Lives Spent: ${3 - gGame.lives} 
+    `
+    const elModalSpan = document.querySelector('.modal span')
+    elModalSpan.innerHTML = strHTML
+
+    removePanelCellClass('.modal', 'hidden')
+}
 
 function gameOver(isWin) {
-    if (isWin) renderPanelCell('.smiley', '😎')
-    else renderPanelCell('.smiley', '😒')
-
+    if (isWin) { 
+        renderPanelCell('.smiley', '😎')
+        addPanelCellClass('.modal','win')
+    } else { 
+        renderPanelCell('.smiley', '😒')
+        addPanelCellClass('.modal','lose')
+    }
     showAllMines(gBoard)
+    renderModal()
     clearInterval(gTimer)
     gGame.isOn = false
 }
@@ -140,6 +163,7 @@ function resetGame() {
         isOn: false,
         shownCount: 0,
         markedCount: 0,
+        correctMarksCount: 0, 
         secsPassed: 0,
         lives: 3
     }
@@ -149,8 +173,8 @@ function resetGame() {
     gClicksCount = 0
     gClicksHistory = []
     gMegaHintCells = []
-    isMegaHint = false
-    isMegaHintClicked = false
+    gIsMegaHint = false
+    gIsMegaHintClicked = false
     onInit()
 }
 
@@ -165,6 +189,33 @@ function createHints() {
         renderPanelCell(`.hint${i+1}`, '❓')
     }
 }
+
+function startTimer() {
+	var startTime = Date.now()
+
+	gTimer = setInterval(() => {
+		const elapsedTime = Date.now() - startTime
+        const formattedTime = (elapsedTime / 1000).toFixed(2)
+        gGame.secsPassed = formattedTime
+		renderPanelCell('.time',formattedTime)
+    }, 37)
+}
+
+function restartTimers() {
+    renderPanelCell('.time', '0')
+    clearInterval(gTimer)
+    clearTimeout(gSafeClickTimeOut)
+    clearTimeout(gHintsTimeOut)
+    clearTimeout(gMegaHintTimeOut)
+}
+
+function createClicksHistory(i, j) {
+    gClicksHistory.push({
+        i: i,
+        j: j 
+    })
+}
+
 
 // function setDarkMode() {
 //     var strHTML = `
