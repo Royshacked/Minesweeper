@@ -158,7 +158,8 @@ function showMegaHintCells() {
         for (var i = startRow; i <= endRow; i++) {
             for (var j = startCol; j <= endCol; j++) {
                 const cell = gBoard[i][j]
-                renderCell(i, j, EMPTY)
+                if(cell.isMarked) renderCell(i,j,FLAG)
+                else renderCell(i,j,EMPTY) 
                 removeCellClass(i, j, 'clicked')
             }
         }

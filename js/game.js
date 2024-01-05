@@ -112,6 +112,7 @@ function renderBoard(board) {
 
 
 function renderPanel() {
+    renderPanelCell('.safe-click span',3)
     renderPanelCell('.lives span', gGame.lives)
     renderPanelCell('.smiley', '😁')
     renderPanelCell('.count', gGame.markedCount)
