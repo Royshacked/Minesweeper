@@ -112,16 +112,16 @@ function renderBoard(board) {
 
 
 function renderPanel() {
-    renderPanelCell('.safe-click span',3)
-    renderPanelCell('.lives span', gGame.lives)
-    renderPanelCell('.smiley', '😁')
-    renderPanelCell('.count', gGame.markedCount)
-    renderPanelCell('.mines', gLevel.mines)
-    renderPanelCell('.mode', 'Manual')
-    removePanelCellClass('.mode', 'marked')
-    addPanelCellClass('.modal', 'hidden')
-    removePanelCellClass('.modal', 'win')
-    removePanelCellClass('.modal', 'lose')
+    renderPanelElement('.safe-click span',3)
+    renderPanelElement('.lives span', gGame.lives)
+    renderPanelElement('.smiley', '😁')
+    renderPanelElement('.count', gGame.markedCount)
+    renderPanelElement('.mines', gLevel.mines)
+    renderPanelElement('.mode', 'Manual')
+    removePanelElementClass('.mode', 'marked')
+    addPanelElementClass('.modal', 'hidden')
+    removePanelElementClass('.modal', 'win')
+    removePanelElementClass('.modal', 'lose')
 }
 
 function renderModal() {
@@ -136,16 +136,16 @@ function renderModal() {
     const elModalSpan = document.querySelector('.modal span')
     elModalSpan.innerHTML = strHTML
 
-    removePanelCellClass('.modal', 'hidden')
+    removePanelElementClass('.modal', 'hidden')
 }
 
 function gameOver(isWin) {
     if (isWin) { 
-        renderPanelCell('.smiley', '😎')
-        addPanelCellClass('.modal','win')
+        renderPanelElement('.smiley', '😎')
+        addPanelElementClass('.modal','win')
     } else { 
-        renderPanelCell('.smiley', '😒')
-        addPanelCellClass('.modal','lose')
+        renderPanelElement('.smiley', '😒')
+        addPanelElementClass('.modal','lose')
     }
     showAllMines(gBoard)
     renderModal()
@@ -187,7 +187,7 @@ function createHints() {
             clicked: false,
             blocked: false
         }
-        renderPanelCell(`.hint${i+1}`, '❓')
+        renderPanelElement(`.hint${i+1}`, '❓')
     }
 }
 
@@ -198,12 +198,12 @@ function startTimer() {
 		const elapsedTime = Date.now() - startTime
         const formattedTime = (elapsedTime / 1000).toFixed(2)
         gGame.secsPassed = formattedTime
-		renderPanelCell('.time',formattedTime)
+		renderPanelElement('.time',formattedTime)
     }, 37)
 }
 
 function restartTimers() {
-    renderPanelCell('.time', '0')
+    renderPanelElement('.time', '0')
     clearInterval(gTimer)
     clearTimeout(gSafeClickTimeOut)
     clearTimeout(gHintsTimeOut)

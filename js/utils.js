@@ -21,17 +21,17 @@ function removeCellClass (rowIdx, colIdx, classStr) {
     elCell.classList.remove(classStr)
 }
 
-function renderPanelCell (selector,value) {
+function renderPanelElement (selector,value) {
     const elPanelCell = document.querySelector(selector)
     elPanelCell.innerText = value
 }
 
-function addPanelCellClass (selector, classStr) {
+function addPanelElementClass (selector, classStr) {
     const elCell = document.querySelector(selector)
     elCell.classList.add(classStr)
 }
 
-function removePanelCellClass (selector, classStr) {
+function removePanelElementClass (selector, classStr) {
     const elCell = document.querySelector(selector)
     elCell.classList.remove(classStr)
 }

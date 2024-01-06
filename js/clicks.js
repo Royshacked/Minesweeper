@@ -38,11 +38,7 @@ function onCellClicked(elCell, ev, i, j) {
     //********************************** */ if mega-hint clicked
 
     if (gIsMegaHint) {
-        gMegaHintCells.push({ i: i, j: j })
-        if (gMegaHintCells.length >= 2) {
-            showMegaHintCells()
-            clickMegaHint()
-        }
+        createMegaHint(i, j)
         return
     }
 
@@ -58,15 +54,16 @@ function onCellClicked(elCell, ev, i, j) {
 
     //********************************** */ set mines manually
     if (gIsFirstClick && gIsManual) {
+        if(cell.isMine) return
         cell.isMine = true //MODEL
         flashMine(i, j)
         gManMinesCount++
-        renderPanelCell('.mode', `${gManMinesCount}|${gLevel.mines}`)
+        renderPanelElement('.mode', `${gManMinesCount}|${gLevel.mines}`)
 
         if (gManMinesCount === gLevel.mines) {
             gManMinesCount = 0
             gIsFirstClick = false
-            renderPanelCell('.mode', 'Play')
+            renderPanelElement('.mode', 'Play')
             setMinesNegsCount(gBoard)
             restartTimers()
             startTimer()
@@ -78,12 +75,12 @@ function onCellClicked(elCell, ev, i, j) {
     if (cell.isMine) {
         if (gGame.lives > 1) {
             gGame.lives-- //MODEL
-            renderPanelCell('.lives span', gGame.lives) //DOM
+            renderPanelElement('.lives span', gGame.lives) //DOM
             flashMine(i, j)
             return
         } else {
             gGame.lives--
-            renderPanelCell('.lives span', gGame.lives)
+            renderPanelElement('.lives span', gGame.lives)
             renderCell(i, j, MINE)
             addCellClass(i, j, 'clicked')
             gameOver(false)
@@ -165,7 +162,7 @@ function onCellMarked(elCell, ev, i, j) {
         elCell.innerText = FLAG
         gGame.markedCount++
         if (!cell.isMine) gGame.shownCount++
-        renderPanelCell('.count', gGame.markedCount)
+        renderPanelElement('.count', gGame.markedCount)
         createClicksHistory(i, j)
         return
     }
@@ -175,7 +172,7 @@ function onCellMarked(elCell, ev, i, j) {
         elCell.innerText = EMPTY
         gGame.markedCount--
         if (!cell.isMine) gGame.shownCount--
-        renderPanelCell('.count', gGame.markedCount)
+        renderPanelElement('.count', gGame.markedCount)
     }
 }
 

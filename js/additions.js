@@ -1,10 +1,10 @@
-'use strict' 
+'use strict'
 
 //******************************SMILEY********************************************************************************************* */
 
 function onSmileyClick() {
     resetGame()
-    renderPanelCell('.smiley', '😁')
+    renderPanelElement('.smiley', '😁')
 }
 
 //*****************************3 SAFE CLICKS**************************************************************************************************** */
@@ -30,7 +30,7 @@ function onSafeClick() {
     }, 500);
 
     gSafeClickCounter--
-    renderPanelCell('.safe-click span', gSafeClickCounter)
+    renderPanelElement('.safe-click span', gSafeClickCounter)
 }
 
 //*********************************PUT MINES MANUALLY******************************************************************************************** */
@@ -40,10 +40,10 @@ function setManualMode() {
 
     if (!gIsManual) {
         gIsManual = true
-        addPanelCellClass('.mode', 'marked')
+        addPanelElementClass('.mode', 'marked')
     } else {
         gIsManual = false
-        removePanelCellClass('.mode', 'marked')
+        removePanelElementClass('.mode', 'marked')
     }
 }
 
@@ -54,13 +54,13 @@ function clickHint(selector) {
     if (gHints[selector - 1].blocked) return
 
     gHints[selector - 1].clicked = true
-    renderPanelCell(`.hint${selector}`, '💡')
+    renderPanelElement(`.hint${selector}`, '💡')
 }
 
 function removeHint(selector) {
     gHints[selector - 1].clicked = false
     gHints[selector - 1].blocked = true
-    renderPanelCell(`.hint${selector}`, '🚫')
+    renderPanelElement(`.hint${selector}`, '🚫')
 }
 
 function isHintClicked() {
@@ -117,7 +117,7 @@ function undo() {
     if (cell.isMarked) { // if undoing flags
         cell.isMarked = false
         gGame.markedCount--
-        renderPanelCell('.count', gGame.markedCount)
+        renderPanelElement('.count', gGame.markedCount)
     }
     renderCell(row, col, EMPTY)
     removeCellClass(row, col, 'clicked')
@@ -125,18 +125,37 @@ function undo() {
 
 //**********************************MEGA HINT********************************************************************************************** */
 
-function clickMegaHint() {
+function toggleMegaHint() {
     if (gIsFirstClick || gIsMegaHintClicked) return
+
     if (!gIsMegaHint) {
         gIsMegaHint = true
-        addPanelCellClass('.mega-hint', 'marked')
-        return true
+        addPanelElementClass('.mega-hint', 'marked')
+        return
     } else {
         gIsMegaHint = false
         gIsMegaHintClicked = true
-        removePanelCellClass('.mega-hint', 'marked')
-        return false
+        removePanelElementClass('.mega-hint', 'marked')
+        return
     }
+}
+
+function createMegaHint(row, col) {
+    if (!checkMegaHintValid(row, col)) return
+
+    gMegaHintCells.push({ i: row, j: col })
+    addCellClass(row,col,'marked')
+    if (gMegaHintCells.length >= 2) {
+        showMegaHintCells()
+        toggleMegaHint()
+    }
+}
+
+function checkMegaHintValid(row, col) {
+    if (gMegaHintCells.length === 1) {
+        if (row < gMegaHintCells[0].i || col < gMegaHintCells[0].j) return false
+    }
+    return true
 }
 
 function showMegaHintCells() {
@@ -151,6 +170,8 @@ function showMegaHintCells() {
             const value = checkCellContent(i, j)
             renderCell(i, j, value)
             addCellClass(i, j, 'clicked')
+            removeCellClass(startRow,startCol,'marked')
+            removeCellClass(endRow,endCol,'marked')
         }
     }
 
@@ -158,8 +179,8 @@ function showMegaHintCells() {
         for (var i = startRow; i <= endRow; i++) {
             for (var j = startCol; j <= endCol; j++) {
                 const cell = gBoard[i][j]
-                if(cell.isMarked) renderCell(i,j,FLAG)
-                else renderCell(i,j,EMPTY) 
+                if (cell.isMarked) renderCell(i, j, FLAG)
+                else renderCell(i, j, EMPTY)
                 removeCellClass(i, j, 'clicked')
             }
         }
