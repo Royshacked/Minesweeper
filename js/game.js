@@ -3,6 +3,7 @@
 const MINE = '💣'
 const FLAG = '🚩'
 const EMPTY = ''
+const HIDDEN = ''
 
 var gBoard
 
@@ -21,19 +22,26 @@ var gGame = {
 }
 
 var gIsFirstClick = true
+
 var gTimer
 var gSafeClickTimeOut
+var gHintsTimeOut
+var gMegaHintTimeOut
+
 var gSafeClickCounter = 3
+
 var gIsManual = false
 var gManMinesCount = 0
-var gHints
-var gHintsTimeOut
+
+var gHints = []
+
 var gClicksCount = 0
 var gClicksHistory = []
+
 var gMegaHintCells = []
-var gIsMegaHint = false
 var gIsMegaHintClicked = false
-var gMegaHintTimeOut
+var gIsMegaHintBlocked = false
+
 
 //******************************************** */
 
@@ -122,6 +130,7 @@ function renderPanel() {
     addPanelElementClass('.modal', 'hidden')
     removePanelElementClass('.modal', 'win')
     removePanelElementClass('.modal', 'lose')
+    removePanelElementClass('.mega-hint', 'marked')
 }
 
 function renderModal() {
@@ -170,12 +179,19 @@ function resetGame() {
     }
     gIsFirstClick = true
     gSafeClickCounter = 3
+
     gIsManual = false
+    gManMinesCount = 0
+
+    gHints = []
+
     gClicksCount = 0
     gClicksHistory = []
+
     gMegaHintCells = []
-    gIsMegaHint = false
     gIsMegaHintClicked = false
+    gIsMegaHintBlocked = false
+    
     onInit()
 }
 
@@ -216,20 +232,6 @@ function createClicksHistory(i, j) {
         j: j 
     })
 }
-
-
-// function setDarkMode() {
-//     var strHTML = `
-//     <style>
-//         :root { color: blue }
-//         @media (prefers-color-scheme: dark) {
-//         :root { color: purple }
-//         }
-//     </style>
-//     `
-//     const elBody = document.querySelector('body')
-//     elBody.innerHTML += strHTML
-// }
 
 
 

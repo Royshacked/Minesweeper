@@ -94,7 +94,7 @@ function flashHintCells(rowIdx, colIdx) {
 
                 if (!cell.isHint) continue
                 cell.isHint = false
-                renderCell(i, j, EMPTY)
+                renderCell(i, j, HIDDEN)
                 removeCellClass(i, j, 'clicked')
             }
         }
@@ -119,40 +119,40 @@ function undo() {
         gGame.markedCount--
         renderPanelElement('.count', gGame.markedCount)
     }
-    renderCell(row, col, EMPTY)
+    renderCell(row, col, HIDDEN)
     removeCellClass(row, col, 'clicked')
 }
 
 //**********************************MEGA HINT********************************************************************************************** */
 
-function toggleMegaHint() {
-    if (gIsFirstClick || gIsMegaHintClicked) return
+function turnOnMegaHint() {
+    if (gIsFirstClick || gIsMegaHintBlocked) return
 
-    if (!gIsMegaHint) {
-        gIsMegaHint = true
-        addPanelElementClass('.mega-hint', 'marked')
-        return
-    } else {
-        gIsMegaHint = false
-        gIsMegaHintClicked = true
-        removePanelElementClass('.mega-hint', 'marked')
-        return
-    }
+    gIsMegaHintClicked = true
+    addPanelElementClass('.mega-hint', 'marked')
+    return true
+}
+
+function turnOffMegaHint() {
+    gIsMegaHintClicked = false
+    gIsMegaHintBlocked = true
+    removePanelElementClass('.mega-hint', 'marked')
+    return
 }
 
 function createMegaHint(row, col) {
     if (!checkMegaHintValid(row, col)) return
 
     gMegaHintCells.push({ i: row, j: col })
-    addCellClass(row,col,'marked')
+    addCellClass(row, col, 'marked')
     if (gMegaHintCells.length >= 2) {
         showMegaHintCells()
-        toggleMegaHint()
+        turnOffMegaHint()
     }
 }
 
 function checkMegaHintValid(row, col) {
-    if (gMegaHintCells.length === 1) {
+    if (gMegaHintCells.length) {
         if (row < gMegaHintCells[0].i || col < gMegaHintCells[0].j) return false
     }
     return true
@@ -170,8 +170,8 @@ function showMegaHintCells() {
             const value = checkCellContent(i, j)
             renderCell(i, j, value)
             addCellClass(i, j, 'clicked')
-            removeCellClass(startRow,startCol,'marked')
-            removeCellClass(endRow,endCol,'marked')
+            removeCellClass(startRow, startCol, 'marked')
+            removeCellClass(endRow, endCol, 'marked')
         }
     }
 
@@ -180,7 +180,7 @@ function showMegaHintCells() {
             for (var j = startCol; j <= endCol; j++) {
                 const cell = gBoard[i][j]
                 if (cell.isMarked) renderCell(i, j, FLAG)
-                else renderCell(i, j, EMPTY)
+                else renderCell(i, j, HIDDEN)
                 removeCellClass(i, j, 'clicked')
             }
         }

@@ -37,7 +37,7 @@ function onCellClicked(elCell, ev, i, j) {
 
     //********************************** */ if mega-hint clicked
 
-    if (gIsMegaHint) {
+    if (gIsMegaHintClicked) {
         createMegaHint(i, j)
         return
     }
@@ -183,7 +183,7 @@ function flashMine(row, col) {
     addCellClass(row, col, 'clicked')
 
     setTimeout(() => {
-        renderCell(row, col, EMPTY)
+        renderCell(row, col, HIDDEN)
         removeCellClass(row, col, 'clicked')
     }, 200);
 }
